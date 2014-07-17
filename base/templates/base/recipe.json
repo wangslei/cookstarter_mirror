@@ -1,0 +1,14 @@
+{
+{% if form.docfile.errors %}
+	"docfile": "{% for error in form.docfile.errors %}{{ error }},{% endfor %}",
+{% endif %}
+{% if form.name.errors %}
+	"name": "{% for error in form.name.errors %}{{ error }},{% endfor %}",
+{% endif %}
+{% if form.descroption.errors %}
+	"descroption": "{% for error in form.descroption.errors %}{{ error }},{% endfor %}",
+{% endif %}
+	"other": 0
+}
+
+{{ form }}

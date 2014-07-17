@@ -1,0 +1,285 @@
+<div ng-controller="HostedMealCreateController">
+	<div class="page-header">
+	  <h1>Cookbook <small>because you don't cook like your grandma</small></h1>
+	</div>
+	<div class="well well-lg">
+		<div class="row">
+			<div class="col-md-5">
+				<div class="panel panel-info">
+					<div class="panel-heading">
+						<h4 class="panel-title">
+							My Recipes
+						</h4>
+					</div>
+					<div class="panel-body" style="height: 200px; overflow-y: auto;">
+						<div class="list-group-item" ng-repeat="recipe in recipes|filter:{creator: user_id}" style="cursor: pointer;">
+							<div class="row" ng-click="setRecipe(recipe)">
+								<div class="col-md-4">
+									<img height="60" width="100%" src="/media/{{ recipe.docfile }}">
+								</div>
+								<div class="col-md-8">
+    								<h4 class="list-group-item-heading">
+    									{{ recipe.name }}
+    								</h4>
+    									<small>by <a href="/#/profile/{{ recipe.creator_profile_id }}">{{ recipe.creator_read_only.username }} <span class="badge">{{ recipe.creator_upcooking_score }}</span></a></small></br>
+									<b>Tags: </b>
+									<span ng-show="{{ recipe.is_vegetarian }}" class="label label-success">Vegetarian</span>
+						    		<span ng-show="{{ recipe.is_vegan }}" class="label label-default">Vegan</span>
+						    		<span ng-show="{{ recipe.is_gluten_free }}" class="label label-danger">Gluten Free</span>
+						    		<span ng-show="{{ recipe.is_dairy_free }}" class="label label-primary">Dairy Free</span>
+				    				<span ng-show="{{ recipe.is_nut_free }}" class="label label-warning">Nut Free</span>
+		    					</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="panel panel-info">
+					<div class="panel-heading">
+						<h4 class="panel-title">
+							Other Public Recipes
+						</h4>
+					</div>
+					<div class="panel-body" style="height: 200px; overflow-y: auto;">
+						<div class="list-group-item" ng-repeat="recipe in recipes|filter:{creator: '!'+user_id}" style="cursor: pointer;">
+							<div class="row" ng-click="setRecipe(recipe)">
+								<div class="col-md-4">
+									<img height="60" width="100%" src="/media/{{ recipe.docfile }}">
+								</div>
+								<div class="col-md-8">
+	    							<h4 class="list-group-item-heading">
+    									{{ recipe.name }}
+    								</h4>
+									<small>by <a href="/#/profile/{{ recipe.creator_profile_id }}">{{ recipe.creator_read_only.username }} <span class="badge">{{ recipe.creator_upcooking_score }}</span></a></small></br>
+									<b>Tags: </b>
+									<span ng-show="{{ recipe.is_vegetarian }}" class="label label-success">Vegetarian</span>
+						    		<span ng-show="{{ recipe.is_vegan }}" class="label label-default">Vegan</span>
+						    		<span ng-show="{{ recipe.is_gluten_free }}" class="label label-danger">Gluten Free</span>
+						    		<span ng-show="{{ recipe.is_dairy_free }}" class="label label-primary">Dairy Free</span>
+				    				<span ng-show="{{ recipe.is_nut_free }}" class="label label-warning">Nut Free</span>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<button ng-model="createnewrecipebutton" type="button" ng-click="recipeEdit=false;recipeSelected=false;recipeFormErrors={};recipeFormData={};" class="btn btn-primary" style="width: 100%">Create New Recipe...</button>
+			</div>
+			<div class="col-md-7">
+				<div class="row">
+					<div ng-show="recipeSelected">
+						<div ng-show="!recipeEdit"> <!-- to do fix controller functions in js and get out of recipeEdit when clicking away... -->
+							<div class="panel panel-info">
+								<div class="panel-heading">
+									<h4 class="panel-title">
+										{{ recipeSelected.name }}
+										<small>by {{ recipeSelected.creator_read_only.username }}</small>
+									</h4>
+								</div>
+								<div class="panel-body">
+									<!-- <button ng-model="createnewrecipebutton" type="button" ng-click="recipeSelected=false;recipeFormErrors={};recipeFormData={};" class="btn btn-primary">Create a new recipe</button> 
+									<button ng-model="clonerecipebutton" type="button" ng-click="recipeFormData=recipeSelected;recipeSelected=false;recipeFormErrors={};" class="btn btn-primary">Clone this recipe</button> -->
+									<img ng-show="recipeSelected.docfile" ng-src="/media/{{ recipeSelected.docfile }}" style="margin:auto;" class="img-rounded thumbnail" height="300" width="100%"/>
+									</br>
+									<div class="list-group-item">
+									    <h4 class="list-group-item-heading">
+											<b>Description</b>
+										</h4>
+										<p class="list-group-item-text">
+											{{ recipeSelected.description }}
+										</p>
+									</div>
+									<div class="list-group-item">
+									    <h4 class="list-group-item-heading">
+											<b>Tags</b>
+										</h4>
+										<p class="list-group-item-text">
+											<span ng-show="recipeSelected.is_vegetarian" class="label label-success">Vegetarian</span>
+								    		<span ng-show="recipeSelected.is_vegan" class="label label-default">Vegan</span>
+								    		<span ng-show="recipeSelected.is_gluten_free" class="label label-danger">Gluten Free</span>
+								    		<span ng-show="recipeSelected.is_dairy_free" class="label label-primary">Dairy Free</span>
+						    				<span ng-show="recipeSelected.is_nut_free" class="label label-warning">Nut Free</span>
+										</p>
+									</div>
+									</br>
+									<button ng-model="editrecipebutton" ng-show="recipeSelected.creator_read_only.id==user_profile.id" type="button" ng-click="editRecipe(recipeSelected)" class="btn btn-primary">Edit Recipe</button>
+									<button ng-model="makemyrecipebutton" ng-show="recipeSelected.creator_read_only.id!=user_profile.id" type="button" ng-click="cloneRecipe(recipeSelected)" class="btn btn-primary">Add to My Recipe</button>
+								</div>
+							</div>
+						</div>
+						<div ng-show="recipeEdit"> <!-- to do fix controller functions in js and get out of recipeEdit when clicking away... -->
+							<div class="panel panel-info">
+								<div class="panel-heading">
+									<h4 class="panel-title">
+										Edit {{ recipeSelected.name }}
+										<small>by {{ recipeSelected.creator_read_only.username }}</small>
+									</h4>
+								</div>
+								<div class="panel-body">
+									<form class="form-horizontal" role="form" id="newRecipeForm">
+					  					<div class="form-group" ng-class="{'has-error': recipeFormErrors.name}">
+				    						<formmidlabel title="Recipe Name"></formmidlabel>
+											<div class="col-md-5">
+						    					<input ng-model="recipeSelected.name" type="text" class="form-control" id="name" placeholder="My recipe..." />
+											</div>
+						  					<warning errors="recipeFormErrors.name"></warning>
+						  				</div>
+					  					<div class="form-group" ng-class="{'has-error': recipeFormErrors.docfile}">
+				    						<formmidlabel title="Picture of Meal"></formmidlabel>
+											<div class="col-md-5">
+					    						<input file-input="recipeSelected.docfile" type="file" class="form-control" />
+											</div>
+						  					<warning errors="recipeFormErrors.docfile"></warning>
+						  				</div>
+					  					<div ng-show="showing >= 2" class="form-group" ng-class="{'has-error': recipeFormErrors.docfile2}">
+				    						<formmidlabel title="Picture of Meal #2"></formmidlabel>
+											<div class="col-md-5">
+						    					<input file-input="recipeSelected.docfile2" type="file" class="form-control" />
+											</div>
+						  					<warning errors="recipeFormErrors.docfile2"></warning>
+						  				</div>
+					  					<div ng-show="showing >= 3" class="form-group" ng-class="{'has-error': recipeFormErrors.docfile3}">
+				    						<formmidlabel title="Picture of Meal #3"></formmidlabel>
+											<div class="col-md-5">
+						    					<input file-input="recipeSelected.docfile3" type="file" class="form-control" />
+											</div>
+						  					<warning errors="recipeFormErrors.docfile3"></warning>
+						  				</div>
+					  					<div class="form-group" ng-show="showing<=2">
+				    							<formmidlabel title=""></formmidlabel>
+					  						<button class="btn" ng-click="showing = showing+1">more pictures</button>
+					  					</div>
+					  					<div class="form-group" ng-class="{'has-error': recipeFormErrors.description}">
+				    						<formmidlabel title="Description"></formmidlabel>
+											<div class="col-md-5">
+						    					<textarea ng-model="recipeSelected.description" class="form-control" id="description" placeholder="Please enter a description..." rows="3"></textarea>
+											</div>
+						  					<warning errors="recipeFormErrors.description"></warning>
+					  					</div>
+					  					<div class="form-group">
+					  						<formmidlabel title="Meal Tags"></formmidlabel>
+					  						<div class="col-md-5">
+					  							<input ng-model="recipeSelected.is_vegetarian" type="checkbox" /> Vegetarian<br/>
+					      						<input ng-model="recipeSelected.is_vegan" type="checkbox" /> Vegan<br/>
+					      						<input ng-model="recipeSelected.is_gluten_free" type="checkbox" /> Gluten-free<br/>
+					      						<input ng-model="recipeSelected.is_dairy_free" type="checkbox" /> Dairy-free<br/>
+					      						<input ng-model="recipeSelected.is_nut_free" type="checkbox" /> Nut-free
+					  						</div>
+					  					</div>
+					  					<button ng-model="editrecipe" ng-click="createRecipe(true)" type="submit" class="btn btn-primary">Save Changes</button> <!-- to do fix controller functions in js and get out of recipeEdit when clicking away... -->
+					  					<button ng-model="canceleditrecipe" ng-click="recipeEdit=false;" type="submit" class="btn btn-cancel">Cancel</button> <!-- to do fix controller functions in js and get out of recipeEdit when clicking away... -->
+					  				</form>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div ng-show="!recipeSelected">
+						<div ng-show="recipeAdded">
+							Using newly created recipe. 
+						</div>
+						<div ng-show="!recipeAdded">
+							<div class="panel panel-info">
+								<div class="panel-heading">
+									<h4 class="panel-title">
+										New Recipe
+									</h4>
+								</div>
+								<div class="panel-body">
+									<form class="form-horizontal" role="form" id="newRecipeForm">
+					  					<div class="form-group" ng-class="{'has-error': recipeFormErrors.name}">
+				    						<formmidlabel title="Recipe Name"></formmidlabel>
+											<div class="col-md-5">
+						    					<input ng-model="recipeFormData.name" type="text" class="form-control" id="name" placeholder="My recipe..." />
+											</div>
+						  					<warning errors="recipeFormErrors.name"></warning>
+						  				</div>
+					  					<div class="form-group" ng-class="{'has-error': recipeFormErrors.docfile}">
+				    						<formmidlabel title="Picture of Meal"></formmidlabel>
+											<div class="col-md-5">
+					    						<input file-input="recipeFormData.docfile" type="file" class="form-control" />
+											</div>
+						  					<warning errors="recipeFormErrors.docfile"></warning>
+						  				</div>
+					  					<div ng-show="showing >= 2" class="form-group" ng-class="{'has-error': recipeFormErrors.docfile2}">
+				    						<formmidlabel title="Picture of Meal #2"></formmidlabel>
+											<div class="col-md-5">
+						    					<input file-input="recipeFormData.docfile2" type="file" class="form-control" />
+											</div>
+						  					<warning errors="recipeFormErrors.docfile2"></warning>
+						  				</div>
+					  					<div ng-show="showing >= 3" class="form-group" ng-class="{'has-error': recipeFormErrors.docfile3}">
+				    						<formmidlabel title="Picture of Meal #3"></formmidlabel>
+											<div class="col-md-5">
+						    					<input file-input="recipeFormData.docfile3" type="file" class="form-control" />
+											</div>
+						  					<warning errors="recipeFormErrors.docfile3"></warning>
+						  				</div>
+					  					<div class="form-group" ng-show="showing<=2">
+				    							<formmidlabel title=""></formmidlabel>
+					  						<button class="btn" ng-click="showing = showing+1">more pictures</button>
+					  					</div>
+					  					<div class="form-group" ng-class="{'has-error': recipeFormErrors.description}">
+				    						<formmidlabel title="Description"></formmidlabel>
+											<div class="col-md-5">
+						    					<textarea ng-model="recipeFormData.description" class="form-control" id="description" placeholder="Please enter a description..." rows="3"></textarea>
+											</div>
+						  					<warning errors="recipeFormErrors.description"></warning>
+					  					</div>
+					  					<div class="form-group">
+					  						<formmidlabel title="Meal Tags"></formmidlabel>
+					  						<div class="col-md-5">
+					  							<input ng-model="recipeFormData.is_vegetarian" type="checkbox" /> Vegetarian<br/>
+					      						<input ng-model="recipeFormData.is_vegan" type="checkbox" /> Vegan<br/>
+					      						<input ng-model="recipeFormData.is_gluten_free" type="checkbox" /> Gluten-free<br/>
+					      						<input ng-model="recipeFormData.is_dairy_free" type="checkbox" /> Dairy-free<br/>
+					      						<input ng-model="recipeFormData.is_nut_free" type="checkbox" /> Nut-free
+					  						</div>
+					  					</div>
+					  					<button ng-model="createrecipe" ng-click="createRecipe(false)" type="submit" class="btn btn-primary">Create Recipe</button>
+									</form>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>	
+		</div>
+	</div>
+<div class="modal fade" id="completedRecipe">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button ng-model="closemodal" type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4 class="modal-title">Success!</h4>
+      </div>
+      <div class="modal-body">
+        <p>You are hosting a meal. Get ready to have new friends.&hellip;</p>
+      </div>
+      <div class="modal-footer">
+        <a href="#" type="button" class="btn btn-primary" data-dismiss="modal" >Done</a>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+	<!-- {{user_profile}} -->
+</div>
+
+<div class="modal fade" id="loginmodal">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button ng-model="closemodal" type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4 class="modal-title">Username Required</h4>
+      </div>
+      <div class="modal-body">
+        <p>Please log in or sign up with Facebook before continuing.&hellip;</p>
+      </div>
+      <div class="modal-footer">
+        <a href="/login/facebook/?next=%2F%23%2Fcreate" type="button" class="btn btn-default">Log In</a>
+        <a href="/login/facebook/?next=%2F%23%2Fcreate" type="button" class="btn btn-primary">Register</a>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+
+

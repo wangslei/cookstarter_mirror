@@ -1,0 +1,301 @@
+<style>
+.active{
+	background-color: #9EB6C4;
+}	
+</style>
+<div class="page-header" ng-controller="UserPublicProfileController">
+  	<h1>{{user_profile.user_field.username}}'s Profile <small>like facebook kinda...</small></h1>
+</div>
+<div class="well well-lg" ng-controller="UserPublicProfileController">
+	<div class="row">
+		<div class="col-md-3">
+			<div class="panel panel-info">
+				<div class="panel-body" ng-mouseover="profile.show=true" >
+					<a class="thumbnail" ng-init="profile.show=false">
+						<img ng-mouseleave="profile.show=false" class="img-rounded" width="208" height="138" ng-src="media/{{ user_profile.docfile }}" alt="...">
+					</a>
+					<div ng-show="profile.show" style="position:relative; top: -60px; left: 3px; height: 0px; width: 208; vertical-align: center;">
+						<button ng-model="changepicturebutton" ng-click="changePictureModal()" type="button" class="btn btn-default">change picture</button>
+					</div> 
+				</div>
+				<div class="panel-footer" align="center">
+					{{user_profile.user_field.username}}</br>
+					<small>Member since: {{user_profile.user_field.date_joined | date:"shortDate"}}</small></br>
+					<small>Avg Rating:  </small>
+					<span class="glyphicon glyphicon-star"></span>
+					<span class="glyphicon glyphicon-star"></span>
+					<span class="glyphicon glyphicon-star"></span>
+					<span class="glyphicon glyphicon-star"></span>
+					<span class="glyphicon glyphicon-star-empty"></span>
+				</div>
+			</div>
+			<div class="panel panel-info">
+				<div class="panel-heading">
+					<h4 class="panel-title">
+						Personal Information
+					</h4>
+				</div>
+				<div class="panel-body">
+					<ul class="list-group">
+						<li class="list-group-item">
+							<span class="badge"><span class="glyphicon glyphicon-home"></span></span>
+							<b>Approx. Location</b></br>
+							<div ng-show="!user_profile.public_location"> <!--todo fix me...location -> public_location on public_profile-->
+								No address
+							</div>
+							<div ng-show="user_profile.public_location"> <!--todo fix me...location -> public_location on public_profile-->
+								{{ user_profile.public_location }} <!--todo fix me...location -> public_location on public_profile-->
+							</div>
+						</li>
+						<li class="list-group-item">
+							<span class="badge"><span class="glyphicon glyphicon-usd"></span></span>
+							<b>About {{user_profile.user_field.username}}</b></br>
+							{{user_profile.about_me}}
+						</li>
+					</ul>
+				</div>
+			</div>
+		</div>
+		<div class="col-md-9">
+			<div class="row">
+				<div class="col-md-5">
+					<div class="panel panel-info">
+						<div class="panel-heading">
+							<div class="panel-title">
+								Upcooking Info
+							</div>
+						</div>
+						<div class="panel-body">
+							<div class="list-group-item">
+							    <h4 class="list-group-item-heading">
+									Overall Score: {{ user_profile.upcooking_score }}
+								</h4>
+							</div>
+							<div class="list-group-item">
+							    <h4 class="list-group-item-heading">
+									Badges Earned: None
+								</h4>
+							</div>
+							<div class="list-group-item">
+							    <h4 class="list-group-item-heading">
+									Meals Hosted: <a href="#">{{ user_profile.hosted_meals.length }}</a>
+								</h4>
+							</div>
+							<div class="list-group-item">
+							    <h4 class="list-group-item-heading">
+									Meals Attended: <a href="#">{{ user_profile.meals_attended.length }}</a>
+								</h4>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="col-md-7">
+					<div class="panel panel-info">
+						<div class="panel-heading">
+							<div class="panel-title">
+								Recent Reviews
+							</div>
+						</div>
+						<div class="panel-body" style="height: 212px; overflow-y: auto;">
+							<div class="list-group-item">
+								<div class="row">
+									<div class="col-md-4" align="center">
+										<img class="img-thumbnail" src="media/{{ user_profile.docfile }}" width="100%"/></br>
+										<span class="glyphicon glyphicon-star"></span>
+										<span class="glyphicon glyphicon-star"></span>
+										<span class="glyphicon glyphicon-star-empty"></span>
+										<span class="glyphicon glyphicon-star-empty"></span>
+										<span class="glyphicon glyphicon-star-empty"></span>
+									</div>
+									<div class="col-md-8">
+									    <h4 class="list-group-item-heading">
+											<a href="#">reviewer</a>
+										</h4>
+										<p class="list-group-item-text">
+											This is a recent review, it kind of sucked etc etc and so on and so forth.
+										</p>
+									</div>
+								</div>
+							</div>
+							<div class="list-group-item">
+								<div class="row">
+									<div class="col-md-4" align="center">
+										<img class="img-thumbnail" src="media/{{ user_profile.docfile }}" width="100%"/></br>
+										<span class="glyphicon glyphicon-star"></span>
+										<span class="glyphicon glyphicon-star"></span>
+										<span class="glyphicon glyphicon-star-empty"></span>
+										<span class="glyphicon glyphicon-star-empty"></span>
+										<span class="glyphicon glyphicon-star-empty"></span>
+									</div>
+									<div class="col-md-8">
+									    <h4 class="list-group-item-heading">
+											<a href="#">reviewer2</a>
+										</h4>
+										<p class="list-group-item-text">
+											This is a recent review, it kind of sucked etc etc and so on and so forth.
+										</p>
+									</div>
+								</div>
+							</div>
+							<div class="list-group-item">
+								<div class="row">
+									<div class="col-md-4" align="center">
+										<img class="img-thumbnail" src="media/{{ user_profile.docfile }}" width="100%"/></br>
+										<span class="glyphicon glyphicon-star"></span>
+										<span class="glyphicon glyphicon-star"></span>
+										<span class="glyphicon glyphicon-star-empty"></span>
+										<span class="glyphicon glyphicon-star-empty"></span>
+										<span class="glyphicon glyphicon-star-empty"></span>
+									</div>
+									<div class="col-md-8">
+									    <h4 class="list-group-item-heading">
+											<a href="#">reviewer3</a>
+										</h4>
+										<p class="list-group-item-text">
+											This is a recent review, it kind of sucked etc etc and so on and so forth.
+										</p>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="panel panel-info">
+				<div class="panel-heading">
+					<h4 class="panel-title">
+						Upcoming Events <small><a href=""> Suggest an event! </a></small>
+					</h4>
+				</div>
+				<div class="panel-body">
+					<ul class="list-group">
+						<li class="list-group-item" ng-repeat="upcoming_event in user_profile.upcoming_events">
+							Attending <a href="#">{{ upcoming_event.recipe.name }}</a> on {{ upcoming_event.start_time  | date:"longDate"}}
+						</li>
+					</ul>
+				</div>
+			</div>
+			<div class="panel panel-info">
+				<div class="panel-heading">
+					<h4 class="panel-title">
+						My Past Events
+					</h4>
+				</div>
+				<div class="panel-body" style="height: 100px; overflow-x: auto;">
+					<div class="list-group-item" ng-repeat="hosted_meal in user_profile.hosted_meals"> <!-- to do fix...add docfile to hosted_meals json/model -->
+						<div ng-if="hosted_meal.start_time < {{ now }}"> <!-- to do fix...pass "now" datetime -->
+							<div ng-repeat="docfile in hosted_meal.docfiles">
+								<img class="img-thumbnail" src="media/hosted_meals/{{ docfile }}" width="10%"/>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="panel panel-info">
+				<div class="panel-heading">
+					<h4 class="panel-title">
+						Recent Activities
+					</h4>
+				</div>
+				<div class="panel-body">>
+					<ul class="list-group">
+						<li class="list-group-item" ng-repeat="recent_activity in user_profile.recent_activities">
+							{{ recent_activity }}
+						</li>
+					</ul>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="modal fade" id="editprofilepicture">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button ng-model="closemodal" type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+					<h4 class="modal-title">Edit profile picture</h4>
+				</div>
+				<div class="modal-body">
+        			<p>
+        				<form role="form">
+	  					<div class="form-group" ng-class="{'has-error': profileImageFormErrors.docfile}">
+    						<label for="recipeNameLabel">Select Profile Picture</label>
+    						<div ng-repeat="error in profileImageFormErrors.docfile" ng-show="profileImageFormErrors.docfile">
+    							<div class="alert alert-danger">
+    								{{ error }}
+    							</div>
+    						</div>
+    						<input
+    							file-input="profileImageForm.docfile" 
+    							type="file" 
+    							class="form-control"/>
+		  				</div>
+        				</form>
+        			</p>
+	      		</div>
+	      		<div class="modal-footer">
+	        			<a ng-click="submitPictureForm()" type="button" class="btn btn-default btn-primary">Update</a>
+	        			<a type="button" class="btn btn-default" data-dismiss="modal">Cancel</a>
+	      		</div>
+	    		</div>
+	  	</div>
+	</div>
+
+
+	<div class="modal fade" id="editprofile">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button ng-model="closemodal" type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+					<h4 class="modal-title">Edit profile</h4>
+				</div>
+				<div class="modal-body">
+	        			<p>
+	        				<form role="form">
+	        					<div class="form-group" ng-class="{'has-error': profileFormErrors.contact_phone}">
+	        						<label for="exampleInputEmail1">Contact Phone</label>
+								<div ng-repeat="error in profileFormErrors.contact_phone" ng-show="profileFormErrors.contact_phone">
+									<div class="alert alert-danger">
+										{{ error }}
+									</div>
+								</div>
+	    							<input ng-model="user_profile.contact_phone" type="text" class="form-control" id="contact_phone" placeholder="555-5555">
+		  					</div>
+	        					<div class="form-group" ng-class="{'has-error': profileFormErrors.location}">
+	        						<label for="exampleInputEmail1">Location</label>
+								<div ng-repeat="error in profileFormErrors.location" ng-show="profileFormErrors.location">
+									<div class="alert alert-danger">
+										{{ error }}
+									</div>
+								</div>
+	    							<input ng-model="user_profile.location" type="text" class="form-control" id="location" placeholder="1234 America Drive">
+		  					</div>
+		  						<div class="form-group" ng-class="{'has-error': profileFormErrors.public_location}">  <!--todo fix me...public location is modifiable if "Lyon Village" is not specific enough or too specific, for example-->
+	        						<label for="exampleInputEmail1">Public Location</label>
+								<div ng-repeat="error in profileFormErrors.public_location" ng-show="profileFormErrors.public_location">  <!--todo fix me-->
+									<div class="alert alert-danger">
+										{{ error }}
+									</div>
+								</div>
+	    							<input ng-model="user_profile.public_location" type="text" class="form-control" id="public_location" placeholder="USA">  <!--todo fix me-->
+		  					</div>
+	        					<div class="form-group" ng-class="{'has-error': profileFormErrors.paypal_payout_email}">
+	        						<label for="exampleInputEmail1">Paypal Email</label>
+								<div ng-repeat="error in profileFormErrors.paypal_payout_email" ng-show="profileFormErrors.paypal_payout_email">
+									<div class="alert alert-danger">
+										{{ error }}
+									</div>
+								</div>
+	    							<input ng-model="user_profile.paypal_payout_email" type="text" class="form-control" id="paypal_payout_email" placeholder="paypal payout email...">
+		  					</div>
+	        				</form>
+	        			</p>
+	      		</div>
+	      		<div class="modal-footer">
+        			<a ng-click="updateProfile()" type="button" class="btn btn-default btn-primary">Update</a>
+        			<a type="button" class="btn btn-default" data-dismiss="modal">Cancel</a>
+	      		</div>
+	    	</div>
+	  	</div>
+	</div>
+</div>
+
