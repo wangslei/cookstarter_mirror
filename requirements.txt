@@ -2,6 +2,8 @@ Django==1.6.5
 South==1.0
 dj-database-url==0.3.0
 dj-static==0.0.6
+django-debug-toolbar==1.2.1
+django-filter==0.7
 django-social-auth==0.7.28
 django-toolbelt==0.0.1
 djangorestframework==2.3.14
@@ -11,6 +13,8 @@ oauth2==1.5.211
 psycopg2==2.5.3
 pygeocoder==1.2.5
 python-openid==2.2.5
+pytz==2014.4
 requests==2.3.0
+sqlparse==0.1.11
 static3==0.5.1
 wsgiref==0.1.2
