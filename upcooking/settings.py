@@ -88,6 +88,12 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.6/howto/static-files/
 
 STATIC_URL = '/static/'
+STATIC_ROOT = 'staticfiles'
+STATIC_URL = '/static/'
+
+STATICFILES_DIRS = (
+            os.path.join(BASE_DIR, 'static'),
+            )
 
 # Parse database configuration from $DATABASE_URL
 if os.environ.get("DATABASE_URL", "") != "":
@@ -101,9 +107,3 @@ if os.environ.get("DATABASE_URL", "") != "":
     ALLOWED_HOSTS = ['*']
 
     # Static asset configuration
-    STATIC_ROOT = 'staticfiles'
-    STATIC_URL = '/static/'
-
-    STATICFILES_DIRS = (
-                os.path.join(BASE_DIR, 'static'),
-                )
