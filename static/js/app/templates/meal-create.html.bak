@@ -1,0 +1,285 @@
+<div ng-controller="HostedMealCreateController">
+	<br/>
+	<div class="well well-lg">
+		<h3>Create Your Upcooking Event!</h3>
+		<div class="row">
+			<div class="col-md-5">
+				<div class="row">
+					<div class="alert alert-success" style="border: 1px solid red;">
+						Select or Create a Recipe
+					</div>
+				</div>
+				<div class="row">
+					<div class="form-group">
+			            <div class="radio">
+			                <label>
+			                    <input type="radio" name="selectCreateRecipe" value="select" ng-model="selectCreateRecipe" />
+			                    Select/Edit Existing Recipe
+			                </label>
+			            </div>
+			            <div class="radio">
+			                <label>
+			                    <input type="radio" name="selectCreateRecipe" value="create" ng-model="selectCreateRecipe" />
+			                    Create New Recipe
+			                </label>
+			            </div>
+			        </div>
+				</div>
+				<div class="row">
+					<div ng-show="selectCreateRecipe=='select'">
+						<h4>Choose a Public Recipe</h4>
+						<div ng-show="recipes" class="form-group"  ng-class="{'has-error': hostFormErrors.recipe}">
+							<div ng-repeat="error in hostFormErrors.recipe" ng-show="hostFormErrors.recipe">
+								<div class="alert alert-danger">
+									{{ error }}
+								</div>
+							</div>
+							<select ng-model="hostFormData.recipe" ng-options="recipe.name for recipe in recipes" class="form-control" ng-change="activateSlide(hostFormData.recipe)">
+								<option value="{}">-- Choose Recipe --</option>
+							</select>
+							{{ recipe.activeRecipe }}
+							<carousel style="height: 300px">
+								<slide ng-repeat="recipe in recipes" active="recipe.active">
+									<div style="position: absolute;opacity:0.4;" class="col-md-offset-2 col-md-8 alert alert-info">
+										Select Recipe
+									</div>
+									<img ng-model="recipe" ng-click="selectRecipeFromCarousel(this)" src="/media/{{ recipe.docfile }}" style="margin:auto; height:300px" />
+									<h4>{{recipe.name}}</h4>
+									<p>(Recipe Rating Here)</p>
+								</slide>
+								<!-- this doesn't work -->
+							</carousel>
+							<br /><br />
+							<!-- <a class="left carousel-control" ng-click="carouselPrev()">asdf</a>
+							<a class="right carousel-control" ng-click="carouselPrev()">fadsfs</a> -->
+							<div ng-show="hostFormData.recipe">
+								<!-- <h2>{{ hostFormData.recipe.name }}</h2>
+								<div>
+									<img src="/media/{{ hostFormData.recipe.docfile }}" width="100%" />
+								</div> -->
+								<h4>Recipe Description</h4>
+								{{ hostFormData.recipe.description }}
+							</div>
+						</div>
+						
+						<br/>
+						<br/>
+						<div ng-show="recipes.length == 0">
+							There are no recipes.
+						</div>
+					</div>
+				</div>
+				<div class="row">
+					<div ng-show="selectCreateRecipe=='create'">
+						<h4>Create a New Recipe</h4>
+						<div ng-show="recipeAdded">
+							Using newly created recipe. 
+						</div>
+						<div ng-show="!recipeAdded">
+							<form role="form" id="newRecipeForm">
+			  					<div class="form-group" ng-class="{'has-error': recipeFormErrors.name}">
+		    							<label for="recipeNameLabel">Recipe Name</label>
+		    							<div ng-repeat="error in recipeFormErrors.name" ng-show="recipeFormErrors.name">
+		    								<div class="alert alert-danger">
+		    									{{ error }}
+		    								</div>
+			    						</div>
+			    						<input ng-model="recipeFormData.name" type="text" class="form-control" id="name" placeholder="My recipe..." />
+				  				</div>
+			  					<div class="form-group" ng-class="{'has-error': recipeFormErrors.docfile}">
+		    							<label for="recipeNameLabel">Picture of Meal</label>
+		    							<div ng-repeat="error in recipeFormErrors.docfile" ng-show="recipeFormErrors.docfile">
+		    								<div class="alert alert-danger">
+		    									{{ error }}
+		    								</div>
+		    							</div>
+		    							<input
+		    								file-input="recipeFormData.docfile" 
+		    								type="file" 
+		    								class="form-control" />
+				  				</div>
+			  					<div class="form-group" ng-class="{'has-error': recipeFormErrors.description}">
+		    							<label for="descriptionLabel">Description</label>
+		    							<div ng-repeat="error in recipeFormErrors.description" ng-show="recipeFormErrors.description">
+		    								<div class="alert alert-danger">
+		    									{{ error }}
+		    								</div>
+		    							</div>
+		    							<textarea ng-model="recipeFormData.description" class="form-control" id="description" placeholder="Please enter a description..." rows="3"></textarea>
+			  					</div>
+			  					<div class="checkbox">
+			    						<label>
+			      						<input ng-model="recipeFormData.is_vegan" type="checkbox" /> Is Vegan
+			    						</label>
+								</div>
+			  					<div class="checkbox">
+		    							<label>
+			      						<input ng-model="recipeFormData.is_vegetarian" type="checkbox" /> Is Vegetarian
+		    							</label>
+								</div>
+			  					<div class="checkbox">
+		    							<label>
+			      						<input ng-model="recipeFormData.is_gluten_free" type="checkbox" /> Is Gluten-free
+		    							</label>
+								</div>
+			  					<div class="checkbox">
+		    							<label>
+			      						<input ng-model="recipeFormData.is_dairy_free" type="checkbox" /> Is Dairy-free
+		    							</label>
+								</div>
+			  					<div class="checkbox">
+		    							<label>
+			      						<input ng-model="recipeFormData.is_nut_free" type="checkbox" /> Is Nut-free
+		    							</label>
+								</div>
+			  					<button ng-model="createrecipe" ng-click="createRecipe()" type="submit" class="btn btn-default">Create Recipe</button>
+							</form>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="col-md-1"></div>
+			<div class="col-md-6">
+				<div class="row">
+					<div class="alert alert-success">
+						Meal Details
+					</div>
+					<form class="form-horizontal" role="form" ng-init="offset='col-sm-offset-3'">
+						<div class="form-group" ng-class="{'has-error': hostFormErrors.price_per_serving}">
+							<label class="control-label col-sm-3" for="exampleInputPassword1">Price per Serving</label>
+							<div class="col-sm-9">
+								<input ng-model="hostFormData.price_per_serving" type="text" class="form-control" id="price_per_serving" placeholder="e.g. $14" />
+							</div>
+	  					</div>
+						<div ng-class="offset" ng-repeat="error in hostFormErrors.price_per_serving" ng-show="hostFormErrors.price_per_serving">
+							<div class="alert alert-danger">
+								{{ error }}
+							</div>
+						</div>
+						<div class="form-group">
+							<div ng-class="{'has-error': hostFormErrors.minimum_diners_required}">
+								<label class="control-label col-sm-3" for="exampleInputPassword1">Number of Servings</label>
+								<div class="col-sm-4">
+									<input ng-model="hostFormData.minimum_diners_required" type="text" class="form-control" id="minimum_diners_required" placeholder="Min" />
+								</div>
+								<div class="col-sm-4 col-sm-offset-1">
+									<input ng-model="hostFormData.maximum_diners_allowed" type="text" class="form-control" id="maximum_diners_allowed" placeholder="Max" />
+								</div>
+		  					</div>
+		  				</div>
+						<div class="col-sm-offset-3" ng-repeat="error in hostFormErrors.minimum_diners_required" ng-show="hostFormErrors.minimum_diners_required">
+							<div class="alert alert-danger">
+								{{ error }}
+							</div>
+						</div>
+	  					<div class="form-group" ng-class="{'has-error': hostFormErrors.location}">
+		    					<label class="control-label col-sm-3" for="mealLocation">Location</label>
+							<div ng-repeat="error in hostFormErrors.location" ng-show="hostFormErrors.location">
+								<div class="alert alert-danger">
+									{{ error }}
+								</div>
+							</div>
+							<div class="col-sm-9">
+	    						<input ng-model="hostFormData.location" type="text" class="form-control" id="location" value="" placeholder="My address..." />
+	    					</div>
+		  				</div>
+	  					<div class="form-group" ng-class="{'has-error': hostFormErrors.contact_phone}">
+							<label class="control-label col-sm-3" for="exampleInputPassword1">Contact Phone</label>
+							<div ng-repeat="error in hostFormErrors.contact_phone" ng-show="hostFormErrors.contact_phone">
+								<div class="alert alert-danger">
+									{{ error }}
+								</div>
+							</div>
+							<div class="col-sm-9">
+								<input ng-model="hostFormData.contact_phone" type="text" class="form-control" id="contact_phone" />
+							</div>
+	  					</div>
+	  					<div class="form-group" ng-class="{'has-error': hostFormErrors.start_time}">
+							<label class="control-label col-sm-3" for="exampleInputPassword1">Meal Date</label>
+							<div ng-repeat="error in hostFormErrors.start_time" ng-show="hostFormErrors.start_time">
+								<div class="alert alert-danger">
+									{{ error }}
+								</div>
+							</div>
+							<div class="col-sm-9">
+								<input type="text" class="form-control" datepicker-popup="yyyy-MM-dd" ng-model="hostFormData.start_time" is-open="opened" min="minDate" max="'2015-06-22'" datepicker-options="dateOptions" date-disabled="disabled(date, mode)" ng-required="true" close-text="Close" />
+							</div>
+						</div>
+						<div class="form-group" ng-class="{'has-error': hostFormErrors.pickertime}">
+							<label class="control-label col-sm-3" for="exampleInputPassword1">Meal Time</label>
+							<div ng-repeat="error in hostFormErrors.pickertime" ng-show="hostFormErrors.pickertime">
+								<div class="alert alert-danger">
+									{{ error }}
+								</div>
+							</div>
+							<div class="col-sm-9">
+								<timepicker ng-model="pickertime" ng-change="changed()" style="display:inline-block;" hour-step="hstep" minute-step="mstep" show-meridian="ismeridian"></timepicker>
+							</div>
+						</div>
+	  					<div class="checkbox-inline" ng-class="{'has-error': hostFormErrors.is_sitdown}">
+							<div ng-repeat="error in hostFormErrors.is_sitdown" ng-show="hostFormErrors.is_sitdown">
+								<div class="alert alert-danger">
+									{{ error }}
+								</div>
+							</div>
+							<label>
+	  							<input ng-model="hostFormData.is_sitdown" type="checkbox" id="is_sitdown" /> Is Sitdown
+							</label>
+						</div>
+	  					<div class="checkbox-inline" ng-class="{'has-error': hostFormErrors.is_pickup}">
+							<div ng-repeat="error in hostFormErrors.is_pickup" ng-show="hostFormErrors.is_pickup">
+								<div class="alert alert-danger">
+									{{ error }}
+								</div>
+							</div>
+							<label>
+	  							<input ng-model="hostFormData.is_pickup" type="checkbox" id="is_pickup" /> Is Pickup
+							</label>
+						</div>
+						<br />
+	  					<button  ng-model="createhost" ng-click="createHost()" type="submit" class="btn btn-default">Host</button>
+						<a href="#" class="btn btn-default active" role="button">Back</a>
+					</form>
+				</div>
+			</div>	
+		</div>
+	</div>
+	{{user_profile.contact_phone}}<br />
+	{{user_profile}}
+</div>
+
+<div class="modal fade" id="loginmodal">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button ng-model="closemodal" type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4 class="modal-title">Username Required</h4>
+      </div>
+      <div class="modal-body">
+        <p>Please log in or sign up with Facebook before continuing.&hellip;</p>
+      </div>
+      <div class="modal-footer">
+        <a href="/login/facebook/?next=%2F%23%2Fcreate" type="button" class="btn btn-default">Log In</a>
+        <a href="/login/facebook/?next=%2F%23%2Fcreate" type="button" class="btn btn-primary">Register</a>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+<div class="modal fade" id="hostedmealcompletemodal">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button ng-model="closemodal" type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4 class="modal-title">Congratulations!</h4>
+      </div>
+      <div class="modal-body">
+        <p>Your meal has been posted. Thank you for upcooking ;)</p>
+      </div>
+      <div class="modal-footer">
+        <a href="#/home" type="button" class="btn btn-default" data-dismiss="modal">Home</a>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+

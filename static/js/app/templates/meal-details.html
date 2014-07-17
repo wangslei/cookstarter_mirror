@@ -1,0 +1,151 @@
+<div ng-controller="HostedMealDetailsController">
+	<div class="page-header">
+	  <h1>Meal Sign Up <small>you're almost there!</small></h1>
+	</div>
+	<div class="well well-lg">
+		<div class="row">
+			<div class="col-md-8">
+				<div class="panel panel-info">
+					<div class="panel-heading">
+						<h4 class="panel-title">
+						{{ meal.recipe_detail.name }}</br>
+						<small><span class="glyphicon glyphicon-map-marker"></span><a href="#">{{ meal.location }}</a></small>
+						</h4>
+					</div>
+					<div class="panel-body">
+						<img width="100%" src="media/{{ meal.recipe_detail.docfile }}" />
+					</div>
+				</div>
+				<div class="panel panel-info">
+					<div class="panel-heading">
+						<h4 class="panel-title">
+							{{meal.host_detail.username}}'s Recent Reviews
+						</h4>
+					</div>
+					<div class="panel-body">
+						<ul class="list-group">
+							<li class="list-group-item">
+								<div class="row">
+									<div class="col-sm-4" align="center">
+										<a class="thumbnail">
+											<img class="img-rounded" width="100%" ng-src="media/{{ meal.recipe_detail.docfile }}" alt="...">
+											(Reviewer's username)
+										</a>
+									</div>
+									<div class="col-sm-8">
+										(Number of stars here)</br></br>
+										Review text of a meal this is boring so boring......... 5 stars? Is text wrap happening yet? How about now????? Please do it now don't make me keep typing.
+									</div>
+								</div>
+							</li>
+							<li class="list-group-item">
+								<div class="row">
+									<div class="col-sm-4" align="center">
+										<a class="thumbnail">
+											<img class="img-rounded" width="100%" ng-src="media/{{ meal.recipe_detail.docfile }}" alt="...">
+											(Reviewer's username)
+										</a>
+									</div>
+									<div class="col-sm-8">
+										(Number of stars here)</br></br>
+										Review text of another meal this is boring so boring......... 5 stars?
+									</div>
+								</div>
+							</li>
+						</ul>
+					</div>
+				</div>
+			</div>
+			<div class="col-md-4">
+				<div class="panel panel-info">
+					<div class="panel-heading">
+						<h4 class="panel-title" align="center">
+							Meal Details
+						</h4>
+					</div>
+					<div class="panel-body" align="center">
+						<p><span style="font-size: 30px;">{{ meal.price_per_serving | currency }}&nbsp;&nbsp;</span>per Serving</p>
+						<hr>
+						<div>Food will be ready on {{ meal.local_start_time | date:'longDate' }} at {{ meal.local_start_time | date:'shortTime' }}</div>
+						<hr>
+						<div class="row" align="middle">
+							<div class="col-sm-4">
+								<select ng-disabled="notoktojoin" ng-init="numGuestsRequest = 1;" ng-model="numGuestsRequest" ng-options="x for x in ableToRequest" class="form-control"></select>
+							</div>
+							<div class="col-sm-8">
+								<p><span style="font-size: 30px;">Total: {{numGuestsRequest*meal.price_per_serving | currency}}</span></p>
+							</div>
+						</div>
+					</div>
+					<div class="panel-footer" align="center">
+						<button ng-click="joinMeal()" class="btn btn-primary btn-lg" role="button" ng-disabled="notoktojoin">Join Meal</button>
+					</div>
+				</div>
+				<div class="panel panel-info">
+					<div class="panel-heading">
+						<h4 class="panel-title" align="center">
+							Meal Description
+						</h4>
+					</div>
+					<div class="panel-body">
+						{{ meal.recipe_detail.description}}
+					</div>
+				</div>
+				<div class="panel panel-default">
+					<div class="panel panel-heading" align="center">
+						<img class="img-rounded" width="208" height="138" ng-src="media/{{meal.host_profile_detail.docfile}}" alt="..."></br>
+						<a href="#/profile/{{ meal.creator_profile_id }}">{{meal.host_detail.username}}</a>
+					</div>
+					<div class="panel-body">
+						<div class="row">
+						</div>
+						<div class="row">
+							<div class="col-sm-8" align="right">
+								Upcooking Score:
+							</div>
+							<div class="col-sm-4">
+								{{meal.host_profile_detail.upcooking_score}}
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-sm-8" align="right">
+								Number of Upcooks:
+							</div>
+							<div class="col-sm-4">
+								{{meal.host_profile_detail.meals_hosted}}
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-sm-8" align="right">
+								Contact Phone:
+							</div>
+							<div class="col-sm-4">
+								{{meal.host_profile_detail.contact_phone}}
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<br/><br/>
+			<br/>
+		</div>
+	</div>
+</div>
+
+<div class="modal fade" id="joinmealcomplete">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button ng-model="closemodal" type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4 class="modal-title">That's it!</h4>
+      </div>
+      <div class="modal-body">
+        <p>You have successfully signed up for this meal.</p>
+      </div>
+      <div class="modal-footer">
+        <a type="button" class="btn btn-default" data-dismiss="modal">Done</a>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+

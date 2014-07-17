@@ -1,0 +1,186 @@
+<div ng-controller="HostedMealCreateController">
+	<div class="page-header">
+	  <h1>Host a meal <small>if you make it they will come</small></h1>
+	</div>
+	<div class="well well-lg">
+		<div class="row">
+			<div class="col-md-4">
+				<div ng-show="!hostFormData.recipe">
+				</div>
+
+				<div ng-show="hostFormData.recipe">
+					<div class="panel panel-info">
+						<div class="panel-heading">
+    							<h4 class="panel-title">
+    								{{ hostFormData.recipe.name }}
+    							</h4>
+  						</div>  
+						<ul class="list-group">
+							<li class="list-group-item">
+								<img class="img-thumbnail" src="/media/{{ hostFormData.recipe.docfile }}"/>
+							</li>
+							<li class="list-group-item">
+								<b>Description:</b><br/>
+								{{ hostFormData.recipe.description }}
+							</li>
+							<li class="list-group-item">
+								<b>Creator:</b><br/>
+								<a href="/#/profile/{{ hostFormData.recipe.creator_profile_id }}">{{ hostFormData.recipe.creator_read_only.username }} <span class="badge">{{ hostFormData.recipe.creator_upcooking_score }}</span></a>
+							</li>
+							<li class="list-group-item">
+								<b>Tags:</b>
+								<span ng-show="hostFormData.recipe.is_vegetarian" class="label label-success">Vegetarian</span>
+					    		<span ng-show="hostFormData.recipe.is_vegan" class="label label-default">Vegan</span>
+					    		<span ng-show="hostFormData.recipe.is_gluten_free" class="label label-danger">Gluten Free</span>
+					    		<span ng-show="hostFormData.recipe.is_dairy_free" class="label label-primary">Dairy Free</span>
+			    				<span ng-show="hostFormData.recipe.is_nut_free" class="label label-warning">Nut Free</span>
+							</li>
+						</ul>
+					</div>
+				</div>
+			</div>
+			<div class="col-md-8">
+				<div class="panel panel-info">
+					<div class="panel-heading">
+						<h4 class="panel-title">
+							Select Recipe
+						</h4>
+					</div>
+					<div class="panel-body">
+						<form class="form-horizontal" role="form" ng-init="offset='col-md-offset-3'">
+							<div class="form-group" ng-class="{'has-error': hostFormErrors.recipe}">
+								<formlabel title="Recipe"></formlabel>
+								<div class="col-md-5">
+									<select ng-model="hostFormData.recipe" ng-options="recipe.name for recipe in recipes|orderBy:customSort" class="form-control">
+										<option value="{}">-- Choose Recipe --</option>
+									</select>
+								</div>
+								<warning errors="hostFormErrors.recipe"></warning>
+							</div>
+							<div class="form-group" ng-class="{'has-error': hostFormErrors.price_per_serving}">
+								<formlabel title="Price per Serving"></formlabel>
+								<div class="row">
+									<div class="col-md-5" style="padding-right: 35px;">
+										<slider floor="1" ceiling="100" step="0.5" ng-model="hostFormData.price_per_serving"></slider>
+									</div>
+									<div class="col-md-2" style="top:-5px;">
+										<h3>
+											{{ hostFormData.price_per_serving|currency }}
+										</h3>
+									</div>
+								</div>
+								<warning errors="hostFormErrors.price_per_serving"></warning>
+							</div>
+							<div class="form-group">
+								<div ng-class="{'has-error': hostFormErrors.minimum_diners_required}">
+									<formlabel title="Guests"></formlabel>
+									<div class="row">
+										<div class="col-md-5" style="padding-right: 35px;">
+											<slider 
+												floor="1" 
+												ceiling="50" 
+												step="1" 
+												ng-model-low="hostFormData.minimum_diners_required"
+												ng-model-high="hostFormData.maximum_diners_allowed"
+											></slider>
+										</div>
+										<div class="col-md-2" style="top:-5px;">
+											<h3>
+												{{ hostFormData.minimum_diners_required }} to {{ hostFormData.maximum_diners_allowed }}
+											</h3>
+										</div>
+									</div>
+									<warning errors="hostFormErrors.minimum_diners_required"></warning>
+									<warning errors="hostFormErrors.maximum_diners_allowed"></warning>
+			  					</div>
+			  				</div>
+							<!-- <div class="form-group">
+								<div ng-class="{'has-error': hostFormErrors.minimum_diners_required}">
+									<formlabel title="Maximum Number of Guests"></formlabel>
+			  					</div>
+			  				</div> -->
+							<div class="form-group" ng-class="{'has-error': hostFormErrors.location}">
+								<formlabel title="Location"></formlabel>
+								<div class="col-md-5">
+									<input ng-model="hostFormData.location" type="text" class="form-control" id="location" value="" placeholder="My address..." />
+								</div>
+			  					<warning errors="hostFormErrors.location"></warning>
+							</div>
+							<div class="form-group" ng-class="{'has-error': hostFormErrors.contact_phone}">
+								<formlabel title="Contact Phone"></formlabel>
+								<div class="col-md-5">
+									<input ng-model="hostFormData.contact_phone" type="text" class="form-control" id="contact_phone" />
+								</div>
+			  					<warning errors="hostFormErrors.contact_phone"></warning>
+							</div>
+							<div class="form-group" ng-class="{'has-error': hostFormErrors.start_time}">
+								<formlabel title="Meal Date"></formlabel>
+								<div class="col-md-5">
+									<input type="text" class="form-control" datepicker-popup="yyyy-MM-dd" ng-model="hostFormData.start_time" is-open="opened" min="minDate" datepicker-options="dateOptions" date-disabled="disabled(date, mode)" ng-required="true" close-text="Close" />
+								</div>
+			  					<warning errors="hostFormErrors.start_time"></warning>
+							</div>
+							<div class="form-group" ng-class="{'has-error': hostFormErrors.pickertime}">
+								<formlabel title="Meal Time"></formlabel>
+								<div class="col-md-5">
+									<timepicker ng-model="pickertime" ng-init="update()" ng-change="changed()" style="display:inline-block;" hour-step="hstep" minute-step="mstep" show-meridian="ismeridian"></timepicker>
+								</div>
+			  					<warning errors="hostFormErrors.pickertime"></warning>
+							</div>
+							<div class="form-group" ng-class="{'has-error': hostFormErrors.is_sitdown}">
+								<formlabel title="Dining Option"></formlabel>
+								<div class="col-md-5" style="top: 5px; position: relative;">
+									<input ng-model="hostFormData.is_sitdown" type="checkbox" id="is_sitdown" /> Is Sitdown
+									<input ng-model="hostFormData.is_pickup" type="checkbox" id="is_pickup" /> Is Pickup
+								</div>
+			  					<warning errors="hostFormErrors.is_sitdown"></warning>
+			  					<warning errors="hostFormErrors.is_pickup"></warning>
+							</div>
+							<br />
+							<button ng-model="createhost" ng-click="createHost()" type="submit" class="btn btn-primary">Host</button>
+							<a href="#" class="btn btn-default" role="button">Back</a>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+<!-- <div class="modal fade" id="loginmodal">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button ng-model="closemodal" type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4 class="modal-title">Login Required</h4>
+      </div>
+      <div class="modal-body">
+        <p>Please log in or sign up with Facebook before continuing.&hellip;</p>
+      </div>
+      <div class="modal-footer">
+        <a href="/login/facebook/?next=%2F%23%2Fcreate" type="button" class="btn btn-default">Log In</a>
+        <a href="/login/facebook/?next=%2F%23%2Fcreate" type="button" class="btn btn-primary">Register</a>
+      </div>
+    </div>
+  </div>
+</div>-->
+<div class="modal fade" id="hostedmealcompletemodal">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button ng-model="closemodal" type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4 class="modal-title">Congratulations!</h4>
+      </div>
+      <div class="modal-body">
+        <p>Your meal has been posted. Thank you for upcooking!</p>
+      </div>
+      <div class="modal-footer">
+        <a ng-model="clickgohome" ng-click="goHome()" type="button" class="btn btn-default">Home</a>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+</div>
+
+
+
+
