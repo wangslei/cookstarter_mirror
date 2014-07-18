@@ -21,7 +21,7 @@ SECRET_KEY = 'x0h&k^$2i)=fxssim-fpm*vmrb$rs5cz_(y+kzy4^mwzau_g@j'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
-
+DEBUG_TOOLBAR_PATCH_SETTINGS = False 
 TEMPLATE_DEBUG = True
 
 TEMPLATE_DIRS = (
