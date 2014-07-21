@@ -12,7 +12,7 @@
 						</h4>
 					</div>
 					<div class="panel-body" style="height: 200px; overflow-y: auto;">
-						<div class="list-group-item" ng-repeat="recipe in recipes|filter:{creator: user_id}" style="cursor: pointer;">
+						<div class="list-group-item" ng-repeat="recipe in recipes|filter:{creator: user_id}" ng-class="{highlighted: recipe===recipeSelected}" style="cursor: pointer;">
 							<div class="row" ng-click="setRecipe(recipe)">
 								<div class="col-md-4">
 									<img height="60" width="100%" src="/media/{{ recipe.docfile }}">
@@ -40,7 +40,7 @@
 						</h4>
 					</div>
 					<div class="panel-body" style="height: 200px; overflow-y: auto;">
-						<div class="list-group-item" ng-repeat="recipe in recipes|filter:{creator: '!'+user_id}" style="cursor: pointer;">
+						<div class="list-group-item" ng-repeat="recipe in recipes|filter:{creator: '!'+user_id}" ng-class="{highlighted: recipe===recipeSelected}" style="cursor: pointer;">
 							<div class="row" ng-click="setRecipe(recipe)">
 								<div class="col-md-4">
 									<img height="60" width="100%" src="/media/{{ recipe.docfile }}">
@@ -281,5 +281,11 @@
   </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
 
-
-
+<style>
+	.highlighted {
+		border: 2px solid #dadada;
+		outline: none;
+	    border-color: #9ecaed;
+	    box-shadow: 0 0 10px #9ecaed;
+	}
+</style>
