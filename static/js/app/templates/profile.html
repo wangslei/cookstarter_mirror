@@ -202,17 +202,20 @@
 	      						<div class="col-md-6">
         							Hosting <a href="#/meal/{{ meal.id }}">{{ meal.recipe.name }}</a> on {{ meal.start_time  | date:"longDate"}}
 	      						</div>
-	      						<div class="col-md-4" ng-show="meal.meal_purchases.length>=meal.minimum_diners_required">
+	      						<div class="col-md-3" ng-show="meal.meal_purchases.length>=meal.minimum_diners_required">
 	        						Minimum reached!
 	      						</div>
-	      						<div class="col-md-4" ng-show="meal.meal_purchases.length<meal.minimum_diners_required">
+	      						<div class="col-md-3" ng-show="meal.meal_purchases.length<meal.minimum_diners_required">
 	        						Pending
 	      						</div>
-	      						<div class="col-md-4" ng-show="meal.meal_purchases.length==meal.maximum_diners_allowed">
+	      						<div class="col-md-3" ng-show="meal.meal_purchases.length==meal.maximum_diners_allowed">
 	        						Full
 	      						</div>
 	      						<div class="col-md-2">
 	        						{{ meal.meal_purchases.length }} / {{ meal.maximum_diners_allowed }}
+	      						</div>
+	      						<div class="col-md-1">
+	        						<a href="#">Edit...</a>
 	      						</div>
     						</div>
 						</li>
@@ -225,17 +228,21 @@
 	      						<div class="col-md-6">
         							Attending <a href="#/meal/{{ meal.id }}">{{ meal.recipe.name }}</a> on {{ meal.start_time  | date:"longDate"}}
 	      						</div>
-	      						<div class="col-md-4" ng-show="meal.meal_purchases.length>=meal.minimum_diners_required && meal.meal_purchases.length<meal.maximum_diners_allowed">
+	      						<div class="col-md-3" ng-show="meal.meal_purchases.length>=meal.minimum_diners_required && meal.meal_purchases.length<meal.maximum_diners_allowed">
 	        						Minimum reached!
 	      						</div>
-	      						<div class="col-md-4" ng-show="meal.meal_purchases.length<meal.minimum_diners_required">
+	      						<div class="col-md-3" ng-show="meal.meal_purchases.length<meal.minimum_diners_required">
 	        						Pending
 	      						</div>
-	      						<div class="col-md-4" ng-show="meal.meal_purchases.length==meal.maximum_diners_allowed">
+	      						<div class="col-md-3" ng-show="meal.meal_purchases.length==meal.maximum_diners_allowed">
 	        						Full
 	      						</div>
+	      						{{meal}}
 	      						<div class="col-md-2">
 	        						{{ meal.meal_purchases_detail.length }} / {{ meal.maximum_diners_allowed }}
+	      						</div>
+	      						<div class="col-md-1">
+	        						<a href="#">Edit...</a>
 	      						</div>
     						</div>
 						</li>
