@@ -163,12 +163,12 @@ if os.environ.get("DATABASE_URL", "") != "":
     FACEBOOK_APP_ID               = '502351716559505'
     FACEBOOK_API_SECRET           = '9dbb0b7a3d95af9790b329b46dc0a123'
 
-#    DEFAULT_FILE_STORAGE = 'storages.backends.s3boto.S3BotoStorage'
-#    AWS_S3_SECURE_URLS = False       # use http instead of https
-#    AWS_QUERYSTRING_AUTH = False     # don't add complex authentication-related query parameters for requests
-#    AWS_S3_ACCESS_KEY_ID = os.environ.get("AWS_ACCESS_KEY", "")     # enter your access key id
-#    AWS_S3_SECRET_ACCESS_KEY = os.environ.get("AWS_SECRET_KEY", "") # enter your secret access key
-#    AWS_STORAGE_BUCKET_NAME = 'upcooking.media'
+    DEFAULT_FILE_STORAGE = 'storages.backends.s3boto.S3BotoStorage'
+    AWS_S3_SECURE_URLS = False       # use http instead of https
+    AWS_QUERYSTRING_AUTH = False     # don't add complex authentication-related query parameters for requests
+    AWS_S3_ACCESS_KEY_ID = os.environ.get("AWS_ACCESS_KEY_ID", "")     # enter your access key id
+    AWS_S3_SECRET_ACCESS_KEY = os.environ.get("AWS_SECRET_ACCESS_KEY", "") # enter your secret access key
+    AWS_STORAGE_BUCKET_NAME = 'upcooking.media'
 
     import dj_database_url
     DATABASES['default'] =  dj_database_url.config(default='postgres://upcooking:upcooking@localhost:5432/upcooking')
