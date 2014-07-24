@@ -22,7 +22,7 @@ mainapp.factory('Api', ['$resource', function($resource) {
 			'Logout': $resource('/logout/#', getJson(), {
 					'get': {method: 'GET', params: {}, isArray: false}
 				}),
-            'UserSelf': $resource(api('user_self/:id#')),
+            'UserSelf': $resource(api('user_self/:id/#')),
             'UserProfileSelf': $resource(api('userprofile_self/:id#'), {id:'@id'},
                     {
                         'query': {method: 'GET', params: {}, isArray: false},
