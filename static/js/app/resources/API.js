@@ -23,7 +23,7 @@ mainapp.factory('Api', ['$resource', function($resource) {
 					'get': {method: 'GET', params: {}, isArray: false}
 				}),
             'UserSelf': $resource(api('user_self/:id/#')),
-            'UserProfileSelf': $resource(api('userprofile_self/:id#'), {id:'@id'},
+            'UserProfileSelf': $resource(api('userprofile_self/:id/#'), {id:'@id'},
                     {
                         'query': {method: 'GET', params: {}, isArray: false},
                         'get': {method: 'GET', params: {}, isArray: true},
@@ -50,7 +50,7 @@ mainapp.factory('Api', ['$resource', function($resource) {
 						'update': {method: 'PUT', params: {id: "@id"}}
 					}
 				),
-			'Recipe': $resource(api('Recipe/:id#'), {},
+			'Recipe': $resource(api('Recipe/:id/#'), {},
 					{
 						'get': {method: 'GET', params: {}, isArray: true},
 						'save': {method: 'POST', params: {}},
@@ -58,7 +58,7 @@ mainapp.factory('Api', ['$resource', function($resource) {
 						'update': {method: 'PUT', params: {id: "@id"}}
 					}
 			),
-			'MealPurchase': $resource(api('MealPurchase/:id#'), {},
+			'MealPurchase': $resource(api('MealPurchase/:id/#'), {},
 					{
 						'get': {method: 'GET', params: {}, isArray: true},
 						'save': {method: 'POST', params: {}},

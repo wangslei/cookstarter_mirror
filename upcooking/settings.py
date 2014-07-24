@@ -105,7 +105,7 @@ USE_L10N = True
 
 USE_TZ = True
 
-APPEND_SLASH = True
+APPEND_SLASH = False
 
 AUTH_PROFILE_MODULE = 'base.UserProfile'
 
