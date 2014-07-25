@@ -13,7 +13,7 @@
 						</h4>
 					</div>
 					<div class="panel-body">
-						<img width="100%" src="media/{{ meal.recipe_detail.docfile }}" />
+						<img width="100%" src="{{MEDIA_URL}}{{ meal.recipe_detail.docfile }}" />
 					</div>
 				</div>
 				<div class="panel panel-info">
@@ -28,7 +28,7 @@
 								<div class="row">
 									<div class="col-sm-4" align="center">
 										<a class="thumbnail">
-											<img class="img-rounded" width="100%" ng-src="media/{{ meal.recipe_detail.docfile }}" alt="...">
+											<img class="img-rounded" width="100%" ng-src="{{MEDIA_URL}}{{ meal.recipe_detail.docfile }}" alt="...">
 											(Reviewer's username)
 										</a>
 									</div>
@@ -42,7 +42,7 @@
 								<div class="row">
 									<div class="col-sm-4" align="center">
 										<a class="thumbnail">
-											<img class="img-rounded" width="100%" ng-src="media/{{ meal.recipe_detail.docfile }}" alt="...">
+											<img class="img-rounded" width="100%" ng-src="{{MEDIA_URL}}{{ meal.recipe_detail.docfile }}" alt="...">
 											(Reviewer's username)
 										</a>
 									</div>
@@ -93,7 +93,7 @@
 				</div>
 				<div class="panel panel-default">
 					<div class="panel panel-heading" align="center">
-						<img class="img-rounded" width="208" height="138" ng-src="media/{{meal.host_profile_detail.docfile}}" alt="..."></br>
+						<img class="img-rounded" width="208" height="138" ng-src="{{MEDIA_URL}}{{meal.host_profile_detail.docfile}}" alt="..."></br>
 						<a href="#/profile/{{ meal.creator_profile_id }}">{{meal.host_detail.username}}</a>
 					</div>
 					<div class="panel-body">
@@ -112,7 +112,7 @@
 								Number of Upcooks:
 							</div>
 							<div class="col-sm-4">
-								{{meal.host_profile_detail.meals_hosted}}
+								{{meal.host_profile_detail.hosted_meals.length}}
 							</div>
 						</div>
 						<div class="row">

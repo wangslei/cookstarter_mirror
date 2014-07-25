@@ -2,6 +2,7 @@ venv
 *.pyc
 db.sqlite3
 staticfiles
-media/*
+!media/profile/no-img.jpg
 .project
 .pydevproject
+
