@@ -1,4 +1,7 @@
 var mainapp = angular.module('mainapp', ['uiSlider','ui.router', 'ui.bootstrap', 'ngResource', 'ngCookies'])
+.run(function($rootScope) {
+    $rootScope.MEDIA_URL = MEDIA_URL;
+})
 .config(function($stateProvider, $urlRouterProvider, $interpolateProvider, $httpProvider){
   	$httpProvider.defaults.xsrfCookieName = 'csrftoken';
 	$httpProvider.defaults.xsrfHeaderName = 'X-CSRFToken';
