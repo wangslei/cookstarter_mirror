@@ -121,7 +121,7 @@
   					<div class="panel-body">
     						<div class="row">
       						<div class="col-md-2 text-center">
-        						<img src="/media/{{ meal.host_profile_detail.docfile }}" class="img-thumbnail"/>
+        						<img src="{{MEDIA_URL}}{{ meal.host_profile_detail.docfile }}" class="img-thumbnail"/>
         						<a href="/#/profile/{{ meal.creator_profile_id }}">{{ meal.host_detail.username }} <span class="badge">{{ meal.host_profile_detail.upcooking_score }}</span></a>
       						</div>
       						<div class="col-md-4">        
@@ -151,7 +151,7 @@
 								</ul>
       						</div>
       						<div class="col-md-4">
-        							<img src="/media/{{ meal.recipe_detail.docfile }}" class="img-thumbnail col-md-12"/>
+        							<img src="{{MEDIA_URL}}{{ meal.recipe_detail.docfile }}" class="img-thumbnail col-md-12"/>
       						</div>
       						<div class="col-md-2">
         							<h1>{{ meal.price_per_serving | currency }}</h1>per person<br/><br/>
