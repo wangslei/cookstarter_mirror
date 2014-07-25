@@ -3,34 +3,34 @@ mainapp.controller('HostedMealController', function($scope, Api){
 		var slides = [];
 		slides.push({
 			mealnum: meal.id,
-			image: "/media/"+meal.recipe_detail.docfile,
+			image: $scope.MEDIA_URL+meal.recipe_detail.docfile,
 			text: ""
 		});
 		if(meal.recipe_detail.docfile2!="recipes/no-img.jpg"){
 			slides.push({
 				mealnum: meal.id,
-				image: "/media/"+meal.recipe_detail.docfile2,
+				image: $scope.MEDIA_URL+meal.recipe_detail.docfile2,
 				text: ""
 			});
 		}
 		if(meal.recipe_detail.docfile3!="recipes/no-img.jpg"){
 			slides.push({
 				mealnum: meal.id,
-				image: "/media/"+meal.recipe_detail.docfile3,
+				image: $scope.MEDIA_URL+meal.recipe_detail.docfile3,
 				text: ""
 			});
 		}
 		if(meal.recipe_detail.docfile4!="recipes/no-img.jpg"){
 			slides.push({
 				mealnum: meal.id,
-				image: "/media/"+meal.recipe_detail.docfile4,
+				image: $scope.MEDIA_URL+meal.recipe_detail.docfile4,
 				text: ""
 			});
 		}
 		if(meal.recipe_detail.docfile5!="recipes/no-img.jpg"){
 			slides.push({
 				mealnum: meal.id,
-				image: "/media/"+meal.recipe_detail.docfile5,
+				image: $scope.MEDIA_URL+meal.recipe_detail.docfile5,
 				text: ""
 			});
 		}

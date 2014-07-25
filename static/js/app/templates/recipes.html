@@ -23,7 +23,7 @@
 						<div class="list-group-item" ng-repeat="recipe in recipes|filter:{creator: user_id}" ng-class="{highlighted: recipe===recipeSelected}" style="cursor: pointer;">
 							<div class="row" ng-click="setRecipe(recipe)">
 								<div class="col-md-4">
-									<img height="60" width="100%" src="/media/{{ recipe.docfile }}">
+									<img height="60" width="100%" src="{{MEDIA_URL}}{{ recipe.docfile }}">
 								</div>
 								<div class="col-md-8">
     								<h4 class="list-group-item-heading">
@@ -51,7 +51,7 @@
 						<div class="list-group-item" ng-repeat="recipe in recipes|filter:{creator: '!'+user_id}" ng-class="{highlighted: recipe===recipeSelected}" style="cursor: pointer;">
 							<div class="row" ng-click="setRecipe(recipe)">
 								<div class="col-md-4">
-									<img height="60" width="100%" src="/media/{{ recipe.docfile }}">
+									<img height="60" width="100%" src="{{MEDIA_URL}}{{ recipe.docfile }}">
 								</div>
 								<div class="col-md-8">
 	    							<h4 class="list-group-item-heading">
@@ -85,7 +85,7 @@
 								<div class="panel-body">
 									<!-- <button ng-model="createnewrecipebutton" type="button" ng-click="recipeSelected=false;recipeFormErrors={};recipeFormData={};" class="btn btn-primary">Create a new recipe</button> 
 									<button ng-model="clonerecipebutton" type="button" ng-click="recipeFormData=recipeSelected;recipeSelected=false;recipeFormErrors={};" class="btn btn-primary">Clone this recipe</button> -->
-									<img ng-show="recipeSelected.docfile" ng-src="/media/{{ recipeSelected.docfile }}" style="margin:auto;" class="img-rounded thumbnail" height="300" width="100%"/>
+									<img ng-show="recipeSelected.docfile" ng-src="{{MEDIA_URL}}{{ recipeSelected.docfile }}" style="margin:auto;" class="img-rounded thumbnail" height="300" width="100%"/>
 									</br>
 									<div class="list-group-item">
 									    <h4 class="list-group-item-heading">
