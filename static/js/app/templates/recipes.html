@@ -108,8 +108,8 @@
 										</p>
 									</div>
 									</br>
-									<button ng-model="editrecipebutton" ng-show="recipeSelected.creator_read_only.id==user_profile.id" type="button" ng-click="editRecipe(recipeSelected)" class="btn btn-primary">Edit Recipe</button>
-									<button ng-model="makemyrecipebutton" ng-show="recipeSelected.creator_read_only.id!=user_profile.id" type="button" ng-click="cloneRecipe(recipeSelected)" class="btn btn-primary">Add to My Recipe</button>
+									<button ng-model="editrecipebutton" ng-show="recipeSelected.creator_read_only.id==user_profile.user" type="button" ng-click="editRecipe(recipeSelected)" class="btn btn-primary">Edit Recipe</button>
+									<button ng-model="makemyrecipebutton" ng-show="recipeSelected.creator_read_only.id!=user_profile.user" type="button" ng-click="cloneRecipe(recipeSelected)" class="btn btn-primary">Add to My Recipe</button>
 								</div>
 							</div>
 						</div>
