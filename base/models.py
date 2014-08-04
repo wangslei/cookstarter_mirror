@@ -101,6 +101,7 @@ class UserProfile(models.Model):
 class MealPurchase(models.Model):
     purchaser = models.ForeignKey(User, blank=True, null=True)
     quantity = models.IntegerField(default=1)
+    __str__ = lambda self: str(self.purchaser)+" bought "+str(self.quantity)
             
 class HostedMeal(models.Model):
     def creator_profile_id(self):
@@ -157,7 +158,7 @@ class HostsReviewOfDiners(models.Model):
 
 def user_create(sender, instance, signal, *args, **kwargs):
     if not instance.is_superuser:
-        profile, new = UserProfile.objects.get_or_create(user=instance, paypal_payout_email=instance.email)
+        profile, new = UserProfile.objects.get_or_create(user=instance)
 
 User.userprofile = property(lambda x: UserProfile.objects.get_or_create(user=x)[0])
 User.profile = lambda x: UserProfile.objects.get_or_create(user=x)[0]
